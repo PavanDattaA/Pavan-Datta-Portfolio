@@ -14,7 +14,7 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f7f6;
+            background: linear-gradient(to right, #e0eafc, #cfdef3);
             color: #333;
         }
 
@@ -70,6 +70,7 @@
             margin: 20px;
             perspective: 1000px;
             display: inline-block;
+            cursor: pointer;
         }
 
         .flip-card-inner {
@@ -80,10 +81,6 @@
             transition: transform 0.6s;
             transform-style: preserve-3d;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        .flip-card:hover .flip-card-inner {
-            transform: rotateY(180deg);
         }
 
         .flip-card-front, .flip-card-back {
@@ -181,7 +178,7 @@
         <h2>Experience</h2>
 
         <!-- Calfus Inc. Experience Card -->
-        <div class="flip-card">
+        <div class="flip-card" onclick="flipCard(this)">
             <div class="flip-card-inner">
                 <div class="flip-card-front">
                     <h3>Software Engineer - Calfus Inc.</h3>
@@ -211,7 +208,7 @@
         </div>
 
         <!-- Decision Attic Experience Card -->
-        <div class="flip-card">
+        <div class="flip-card" onclick="flipCard(this)">
             <div class="flip-card-inner">
                 <div class="flip-card-front">
                     <h3>Software Engineer - Decision Attic</h3>
@@ -228,7 +225,7 @@
         </div>
 
         <!-- Peacock Solar Experience Card -->
-        <div class="flip-card">
+        <div class="flip-card" onclick="flipCard(this)">
             <div class="flip-card-inner">
                 <div class="flip-card-front">
                     <h3>Software Engineer Intern - Peacock Solar</h3>
@@ -244,7 +241,7 @@
         </div>
 
         <!-- Chamber of Products Experience Card -->
-        <div class="flip-card">
+        <div class="flip-card" onclick="flipCard(this)">
             <div class="flip-card-inner">
                 <div class="flip-card-front">
                     <h3>Software Engineer Intern - Chamber Of Products</h3>
@@ -289,7 +286,7 @@
         <p>© 2024 Pavan Datta Abbineni</p>
     </footer>
 
-    <!-- Add JS for smooth scroll -->
+    <!-- Add JS for smooth scroll and click-to-flip functionality -->
     <script>
         // Smooth Scroll for Navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -300,6 +297,12 @@
                 });
             });
         });
+
+        // Flip card on click
+        function flipCard(card) {
+            const innerCard = card.querySelector('.flip-card-inner');
+            innerCard.style.transform = innerCard.style.transform === 'rotateY(180deg)' ? '' : 'rotateY(180deg)';
+        }
     </script>
 
 </body>
