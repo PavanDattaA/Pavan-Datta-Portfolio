@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Pavan Datta Abbineni - Software Engineer Portfolio">
     <title>Pavan Datta Abbineni Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Add animation library -->
+    <!-- Add animation library (optional) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
         /* General Styling */
@@ -18,13 +17,26 @@
             color: #333;
         }
 
-        header {
-            background-color: #1f3a93;
-            color: #fff;
-            padding: 2rem;
-            text-align: center;
+        /* Section Styling */
+        .section {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            padding: 3rem;
+            margin: 2rem auto;
+            background-color: #fff;
+            width: 80%;
+            max-width: 1000px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
 
+        .section.in-view {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Navigation Bar */
         nav {
             background-color: #163172;
             position: sticky;
@@ -47,15 +59,24 @@
             background-color: #2e539d;
         }
 
-        section {
-            padding: 3rem;
-            margin: 2rem auto;
-            background-color: #fff;
-            width: 80%;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+        /* Header Section */
+        header {
+            background-color: #1f3a93;
+            color: #fff;
+            padding: 4rem 2rem;
+            text-align: center;
         }
 
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .header-description {
+            font-size: 1.2rem;
+        }
+
+        /* Section Headings */
         h2 {
             color: #1f3a93;
             font-size: 2rem;
@@ -80,14 +101,16 @@
             text-align: center;
             transition: transform 0.6s;
             transform-style: preserve-3d;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .flip-card.show .flip-card-inner {
+            transform: rotateY(180deg);
         }
 
         .flip-card-front, .flip-card-back {
             position: absolute;
             width: 100%;
             height: 100%;
-            -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             border-radius: 10px;
         }
@@ -106,16 +129,10 @@
             color: white;
             transform: rotateY(180deg);
             padding: 20px;
+            overflow-y: auto;
         }
 
-        footer {
-            text-align: center;
-            padding: 2rem;
-            background-color: #163172;
-            color: white;
-        }
-
-        /* Project and Contact Styling */
+        /* Projects and Contact */
         .project-card, .contact-info {
             background-color: #edf2f4;
             padding: 1.5rem;
@@ -136,6 +153,14 @@
         a:hover {
             text-decoration: underline;
         }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: #163172;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -150,7 +175,7 @@
     </nav>
 
     <!-- Header Section -->
-    <header class="animate__animated animate__fadeInDown">
+    <header class="section">
         <h1>Pavan Datta Abbineni</h1>
         <p class="header-description">
             Experienced software engineer with expertise in full-stack development, system architecture, and optimizing software performance.
@@ -164,7 +189,7 @@
     </section>
 
     <!-- Skills Section -->
-    <section id="skills" class="section animate__animated animate__slideInLeft">
+    <section id="skills" class="section">
         <h2>Technical Skills</h2>
         <ul>
             <li><strong>Languages/Database:</strong> Java, Python, C, C++, C#, Typescript, mySQL, NoSQL, MongoDB, Kotlin.</li>
@@ -174,7 +199,7 @@
     </section>
 
     <!-- Experience Section with Flip Cards -->
-    <section id="experience" class="section animate__animated animate__fadeInRight">
+    <section id="experience" class="section">
         <h2>Experience</h2>
 
         <!-- Calfus Inc. Experience Card -->
@@ -258,7 +283,7 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="section animate__animated animate__fadeInUp">
+    <section id="projects" class="section">
         <h2>Projects</h2>
         <div class="project-card">
             <h3>Distributed Store Application</h3>
@@ -273,7 +298,7 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="section animate__animated animate__fadeInUp">
+    <section id="contact" class="section">
         <h2>Contact</h2>
         <div class="contact-info">
             <p>Email: pavansmailbox1@gmail.com</p>
@@ -286,10 +311,10 @@
         <p>© 2024 Pavan Datta Abbineni</p>
     </footer>
 
-    <!-- Add JS for smooth scroll and click-to-flip functionality -->
+    <!-- JavaScript for smooth scrolling and click-to-flip functionality -->
     <script>
         // Smooth Scroll for Navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 document.querySelector(this.getAttribute('href')).scrollIntoView({
@@ -300,9 +325,28 @@
 
         // Flip card on click
         function flipCard(card) {
-            const innerCard = card.querySelector('.flip-card-inner');
-            innerCard.style.transform = innerCard.style.transform === 'rotateY(180deg)' ? '' : 'rotateY(180deg)';
+            card.classList.toggle('show');
         }
+
+        // Scroll-based animations using IntersectionObserver
+        const sections = document.querySelectorAll('.section');
+
+        const options = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    observer.unobserve(entry.target);  // Unobserve once in view
+                }
+            });
+        }, options);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
     </script>
 
 </body>
